@@ -511,7 +511,7 @@ defmodule SNMP do
       # warm-up to update the engineBoots and engineTime in
       # SNMPM
 
-      :snmpm.sync_get2(__MODULE__, target_name, [], 2000)
+      :snmpm.sync_get2(__MODULE__, target_name, [], [{:timeout, 2000}])
     end
 
     :ok

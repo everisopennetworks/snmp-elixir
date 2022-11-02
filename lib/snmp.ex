@@ -511,7 +511,7 @@ defmodule SNMP do
       # warm-up to update the engineBoots and engineTime in
       # SNMPM
 
-      :snmpm.sync_get(__MODULE__, target_name, [], 2000)
+      :snmpm.sync_get2(__MODULE__, target_name, [], 2000)
     end
 
     :ok
@@ -569,7 +569,7 @@ defmodule SNMP do
           |> Enum.map(& &1.oid)
           |> normalize_to_oids
 
-        :snmpm.sync_get(
+        :snmpm.sync_get2(
           __MODULE__,
           target,
           context,
@@ -602,7 +602,7 @@ defmodule SNMP do
             end
           end)
 
-        :snmpm.sync_set(
+        :snmpm.sync_set2(
           __MODULE__,
           target,
           context,

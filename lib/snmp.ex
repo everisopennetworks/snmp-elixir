@@ -225,8 +225,8 @@ defmodule SNMP do
   defp get_timeout,
     do: Application.get_env(:snmp_ex, :timeout)
 
-  defp get_max_repetitions,
-    do: Application.get_env(:snmp_ex, :max_repetitions)
+  #defp get_max_repetitions,
+  #  do: Application.get_env(:snmp_ex, :max_repetitions)
 
   defp get_delimiter_by_family(4), do: "."
   defp get_delimiter_by_family(6), do: ":"
@@ -572,9 +572,8 @@ defmodule SNMP do
         :snmpm.sync_get2(
           __MODULE__,
           target,
-          context,
           oids,
-          timeout
+          [{:context, context}, {:timeout, timeout}]
         )
 
       :get_next ->
@@ -583,12 +582,11 @@ defmodule SNMP do
           |> Enum.map(& &1.oid)
           |> normalize_to_oids
 
-        :snmpm.sync_get_next(
+        :snmpm.sync_get_next2(
           __MODULE__,
           target,
-          context,
           oids,
-          timeout
+          [{:context, context}, {:timeout, timeout}]
         )
 
       :set ->
@@ -605,9 +603,8 @@ defmodule SNMP do
         :snmpm.sync_set2(
           __MODULE__,
           target,
-          context,
           vars_and_vals,
-          timeout
+          [{:context, context}, {:timeout, timeout}]
         )
     end
   end
@@ -874,7 +871,7 @@ defmodule SNMP do
       e in ArgumentError ->
         :ok = Logger.warn("Unhandled exception: did you forget to `SNMP.start`?")
 
-        reraise(e, System.stacktrace())
+        reraise(e, __STACKTRACE__)
     end
   end
 

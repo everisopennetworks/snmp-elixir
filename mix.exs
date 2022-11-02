@@ -30,6 +30,7 @@ defmodule SNMP.Mixfile do
   def application do
     [ extra_applications: [
         :logger,
+        :crypto,
         :snmp,
       ],
       env: [
